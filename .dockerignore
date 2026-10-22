@@ -1,0 +1,17 @@
+.git/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+env/
+.idea/
+.vscode/
+
+# Assignment brief and working screenshots, not part of the application.
+*.docx
+Screenshot*.png
+
+# Matplotlib output; the web app renders its own figures at request time.
+# figures/web/ is kept because the README on the Space page links to it.
+figures/*.png

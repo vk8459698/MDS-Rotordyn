@@ -1,0 +1,26 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+env/
+*.egg-info/
+.DS_Store
+.idea/
+.vscode/
+outbox/
+imports/
+inbox/**/*.csv
+*.harmonics.csv
+.rotordyn_done
+setup.exe
+*.adb
+
+# customer data and ADRE databases stay off the repo
+*.csv
+*.xlsx
+*.zip
+*.dat
+*.docx
+Input Data/
+CT2B_*/

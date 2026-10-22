@@ -1,0 +1,24 @@
+# Core analysis and the static figure export.
+numpy>=1.24
+pandas>=2.0
+matplotlib>=3.7
+
+# Browser interface (python main.py --web).
+dash>=2.16
+plotly>=5.20
+
+# Hugging Face Spaces interface (python app.py). Hugging Face installs this
+# file, so gradio has to live here rather than in a separate extras file.
+gradio>=5.0
+
+# Desktop interface (python main.py) uses Tkinter, which ships with CPython on
+# Windows and macOS. On Debian/Ubuntu install it with:
+#     sudo apt install python3-tk
+
+# Serving the web interface for real, rather than on the Flask dev server.
+# waitress is a production WSGI server that runs on Windows as well as Linux,
+# which matters because the deployment host also runs ADRE Sxp. See DEPLOY.md.
+waitress>=3.0
+
+# PDF briefing from python main.py --buddy (tables + graphs).
+reportlab>=4.0

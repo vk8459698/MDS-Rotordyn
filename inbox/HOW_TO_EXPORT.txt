@@ -1,0 +1,89 @@
+ADRE Sxp → RotorDyn inbox  (from ADRE Sxp Help 3.23)
+====================================================
+
+Yes: the CSV export click-path in ADRE is still manual for now.
+No: you do not open individual .dat files. You open the database folder,
+make a Tabular List plot, then Export → CSV. RotorDyn's --watch does the rest.
+
+The help page "Derived Keyphasors" is configuration, not export.
+Use these topics instead (Help search):
+  - Connect With ADRE Database
+  - Plot Groups
+  - Exporting Plots
+  - Tabular List Plot Group Configuration
+
+----------------------------------------------------
+A. Open the DukeCitrus database
+----------------------------------------------------
+1. Start ADRE Sxp.
+2. Connect / Open database (Connect With ADRE Database).
+3. Navigate to the folder that contains:
+      ADRE SXP.adb
+      ConfigDBFile.xml
+      Data\
+   (e.g. CT2B_DukeCitrus_04292026) and click OK.
+
+You should see Unit 3 STG / ADRE 408 / BRG1X, BRG1Y, Kph 1, etc.
+
+----------------------------------------------------
+B. Create a Tabular List for the channels you need
+----------------------------------------------------
+ADRE only writes CSV from Tabular List plots (and optionally from
+timebase/spectrum). Graphical polar/Bode exports are images, not data.
+
+From ADRE Help → Plot Groups:
+
+1. In the Configuration Hierarchy, select the channels:
+      BRG1X, BRG1Y, and Kph 1
+   (Ctrl+click to multi-select), OR right-click the Dynamic Sampling Card.
+2. Right-click → Plots → Tabular List
+   (or Plots menu → Tabular List).
+3. A plot session / tabular plot group opens with those channels.
+
+Optional: right-click the plot group → Rename → e.g. "BRG1 static export".
+
+----------------------------------------------------
+C. Export that tabular plot as CSV
+----------------------------------------------------
+From ADRE Help → Exporting Plots:
+
+1. On the plot group toolbar, open the Export icon drop-down.
+2. Choose what to export (Active Plot / Current Window / Plot Group).
+   For one clean file set, Active Plot or Plot Group is fine.
+3. Click the Export icon.
+4. In the dialog:
+      Save in:   D:\Downloads\RotorDyn\inbox\DukeCitrus_BRG1
+                 (create that folder if needed)
+      File name: e.g. BRG1X   (repeat per channel if ADRE exports one at a time)
+      Save as type:  CSV / comma-delimited text
+5. Click Save.
+
+ADRE Help note (exact):
+  "Tabular plots are saved as comma-delimited text files (.csv)."
+
+If ADRE writes one CSV per channel, that is what RotorDyn expects
+(same idea as CT2B_BRG1X.csv / CT2B_BRG1Y.csv / KPH.csv).
+
+----------------------------------------------------
+D. Hand off to RotorDyn
+----------------------------------------------------
+With the CSVs in inbox\ (or a subfolder):
+
+    python main.py --watch
+
+or one-shot:
+
+    python main.py --process inbox\DukeCitrus_BRG1 --outbox outbox
+
+Output lands in outbox\<name>_<time>_<id>\  (summary.txt + figures\).
+
+----------------------------------------------------
+What is still manual vs automatic
+----------------------------------------------------
+Manual (ADRE UI):   open DB → Tabular List → Export CSV
+Automatic (ours):   detect CSVs → summary + polar/Bode figures
+
+Full UI automation of ADRE (no clicking) is a later step once this
+manual path works and we know the exact menu labels on your install.
+
+Do NOT drop setup.exe or the raw Data\*.dat folder into inbox\.

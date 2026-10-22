@@ -1,0 +1,40 @@
+ADRE Sxp ingest  (native database → CSV)
+========================================
+
+Kiran's workflow: receive the original, scan it, open a working copy,
+inventory static vs sync vs async, export CSVs, then mark complete / partial / failed.
+
+CSV extraction still needs ADRE Sxp on Windows. RotorDyn inventories the
+native folder without decoding Data\*.dat.
+
+Drop zips (or unzipped database folders) somewhere local, then:
+
+    python main.py --ingest path\to\database.zip
+    python main.py --ingest path\to\folder_with_adb --in-place
+    python main.py --ingest a.zip b.zip c.zip --skip-scan
+
+Each import lands in imports\imp_<time>_<hash>\
+
+    original\        bit-for-bit upload (skipped with --in-place)
+    working\         unzipped ADRE folder (or a pointer, if --in-place)
+    exports\         put static / sync / async CSVs here
+    EXPORT_PLAN.txt  exact ADRE click path for this database
+    report.txt       status for Kiran
+    manifest.json    machine-readable copy of the report
+
+After you export CSVs from ADRE into that exports folder:
+
+    python main.py --ingest-verify imp_YYYYMMDD_HHMMSS_xxxxxxxx
+
+Complete means all three kinds are present: Tabular List (static),
+Sync Waveform timebase, Async Waveform timebase.
+
+    python main.py --ingest-status
+
+--skip-scan records that Defender was not run. It does NOT mark the
+file clean. On the EC2 box, omit --skip-scan so MpCmdRun runs.
+
+Do not rewrite native .dat timestamps here. If dates must be shifted
+before Google Drive, do that in ADRE Sxp on a copy, then ingest the copy.
+
+See also HOW_TO_EXPORT.txt for the Tabular List click path.

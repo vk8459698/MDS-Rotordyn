@@ -1,0 +1,42 @@
+{
+  "description": "UI recipe for exporting BRG1X / BRG1Y / Kph CSVs from ADRE Sxp. Copy to adre_export_recipe.json and replace every placeholder after running tools/adre_ui_map.py on the EC2 box with ADRE open.",
+  "channels": ["BRG1X", "BRG1Y", "Kph 1"],
+  "steps": [
+    {
+      "action": "wait",
+      "seconds": 5,
+      "note": "Let ADRE finish starting / show the main window"
+    },
+    {
+      "action": "focus_main",
+      "title_re": ".*ADRE.*",
+      "note": "Bring ADRE to the foreground"
+    },
+    {
+      "action": "placeholder",
+      "note": "OPEN DATABASE",
+      "message": "Map File → Open (or equivalent) in ADRE, then put the real menu_click / open_file_dialog steps here. Path placeholder: {database}"
+    },
+    {
+      "action": "placeholder",
+      "note": "EXPORT BRG1X",
+      "message": "Map the Export Channel / Save As CSV action for BRG1X into {inbox}"
+    },
+    {
+      "action": "placeholder",
+      "note": "EXPORT BRG1Y",
+      "message": "Map the export for BRG1Y into {inbox}"
+    },
+    {
+      "action": "placeholder",
+      "note": "EXPORT Kph 1",
+      "message": "Map the export for the keyphasor into {inbox}"
+    },
+    {
+      "action": "wait_for_csvs",
+      "min_files": 3,
+      "timeout_seconds": 180,
+      "note": "Succeed once three CSVs land in the inbox"
+    }
+  ]
+}
